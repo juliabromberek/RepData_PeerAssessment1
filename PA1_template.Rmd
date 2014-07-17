@@ -14,7 +14,12 @@ activity <- read.csv("~/Dropbox/Coursera/Reproducible Research/activity.csv", se
 
 ```{r, echo=TRUE}
 daytot <- tapply(activity$steps,activity$date,sum)
+```
+```{r hist, echo=TRUE}
 hist(daytot,xlab="Total number of steps per day", main="Total number of steps per day")
+png(filename = "plot_part2_1.png", width = 480, height = 480)
+hist(daytot,xlab="Total number of steps per day", main="Total number of steps per day")
+dev.off()
 ```  
 
 2. Calculate and report the **mean** and **median** total number of steps taken per day
@@ -36,7 +41,12 @@ median(daytot, na.rm=T)
 ```{r, echo=TRUE}
 x <- as.data.frame(cbind(activity$steps,activity$interval))
 y= aggregate(x[,1],by=list(activity$interval),mean,na.rm=T)
+```
+```{r plot, echo=TRUE}
 plot(y[,1],y[,2],type="l", xlab= "5-minute interval", ylab="Average Number of Steps", main="Average Daily Activity Pattern")
+png(filename = "plot_part3_1.png", width = 480, height = 480)
+plot(y[,1],y[,2],type="l", xlab= "5-minute interval", ylab="Average Number of Steps", main="Average Daily Activity Pattern")
+dev.off()
 ```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the  maximum number of steps?
@@ -53,7 +63,7 @@ sum(is.na(activity$steps))
 
 2. Devise a strategy for filling in all of the missing values in the dataset 
   
-  I decided to impute the mean for the 5-minute interval corresponding to missing data
+  I decided to impute the mean for the 5-minute interval corresponding to missing data (e.g if data was missing for interval 5, I imputed the mean for interval 5 across all dates)
 ```{r, echo=TRUE}
 int_avg = rep.int(y[,2],61)
 activity1 = cbind(activity,int_avg)
@@ -73,7 +83,12 @@ activity_impute=activity1[,1:3]
 
 ```{r, echo=TRUE}
 daytot2 <- tapply(activity_impute$steps,activity_impute$date,sum)
+```
+```{r hist2, echo=TRUE}
 hist(daytot2,xlab="Total number of steps per day", main="Total number of steps per day using imputed data")
+png(filename = "plot_part4_1.png", width = 480, height = 480)
+hist(daytot2,xlab="Total number of steps per day", main="Total number of steps per day using imputed data")
+dev.off()
 ```  
 
 - The mean is
@@ -114,6 +129,11 @@ activity_weekend= cbind(activity_impute,date3,dayofweek,weekday)
 ```{r, echo=TRUE}
 a <- cbind(activity_weekend$steps,activity_weekend$interval,activity_weekend$weekday)
 b = aggregate(x[,1],by=list(activity_weekend$interval,activity_weekend$weekday),mean,na.rm=T)
+```
+```{r plot2, echo=TRUE}
 library(lattice)
 xyplot(b[,3] ~ b[,1] | b[,2], data= b, layout=c(1,2),type="l", xlab= "5-minute interval", ylab="Average Number of Steps", main="Average Activity Pattern for Weekends vs Weekdays")
+png(filename = "plot_part5_2.png", width = 480, height = 480)
+xyplot(b[,3] ~ b[,1] | b[,2], data= b, layout=c(1,2),type="l", xlab= "5-minute interval", ylab="Average Number of Steps", main="Average Activity Pattern for Weekends vs Weekdays")
+dev.off()
 ```
