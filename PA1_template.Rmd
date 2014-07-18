@@ -5,7 +5,7 @@ output: html_document
 ##Part 1: Loading and preprocessing the data
 The data is available on the course website. I will save it as the dataset "activity"
 ```{r, echo=TRUE}
-activity <- read.csv("~/Dropbox/Coursera/Reproducible Research/activity.csv", sep=",")
+activity <- read.csv("~/Dropbox/Coursera/Reproducible Research/Project 1/activity.csv", sep=",")
 ```  
   
 
@@ -128,7 +128,7 @@ activity_weekend= cbind(activity_impute,date3,dayofweek,weekday)
 
 ```{r, echo=TRUE}
 a <- cbind(activity_weekend$steps,activity_weekend$interval,activity_weekend$weekday)
-b = aggregate(x[,1],by=list(activity_weekend$interval,activity_weekend$weekday),mean,na.rm=T)
+b = aggregate(a[,1],by=list(activity_weekend$interval,activity_weekend$weekday),mean,na.rm=T)
 ```
 ```{r plot2, echo=TRUE}
 library(lattice)
